@@ -6,7 +6,7 @@ test('Check title', async ({ page }) => {
   await expect(page).toHaveTitle("Club Management Platform");
 })
 
-test.describe('User sign-in/out features', () => {
+test.describe('User sign-in/out features @smoke', () => {
 test('Check register page', async ({ page }) => {
   await page.goto('http://localhost:3000/');
 
@@ -23,7 +23,7 @@ test('Check sign in', async ({ page }) => {
   await page.getByRole('textbox', {name: 'Password'}).fill("hameed");
   await page.getByRole('button', {name: "Sign In"}).click();
 
-  await expect(page).toHaveURL('http://localhost:3000/dashboard');
+  await expect(page).toHaveURL('http://localhost:3000/lakeview-bowls');
   expect(page.getByText('Lakeview Bowls Club', { exact: true }));
 })
 
@@ -40,7 +40,7 @@ test('Check sign out', async ({ page }) => {
 })
 })
 
-test.describe('Booking features', () => {
+test.describe('Booking features @smoke', () => {
 test('Check booking', async ({ page }) => {
   await page.goto('http://localhost:3000/');
   await page.getByRole('link', {name: 'Sign In'}).click();
