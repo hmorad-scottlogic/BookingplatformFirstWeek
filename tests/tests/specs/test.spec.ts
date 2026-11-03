@@ -1,6 +1,13 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures/fixture';
 
+test.afterEach(async ({ page }, testInfo) => {
+  
+  if (testInfo.status !== testInfo.expectedStatus) {
+      console.log(`Test ${testInfo.title} finished with status: ${testInfo.status}`);
+  }
+});
+
 test('Check title', async ({ homePage, page }) => {
   await homePage.goto();
   await expect(page).toHaveTitle("Club Management Platform");
