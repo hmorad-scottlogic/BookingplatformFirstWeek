@@ -14,7 +14,7 @@ export const test = base.extend<Fixtures>({
         const loginPage = new LoginPage(page);
         await loginPage.goto();
         await loginPage.signIn('hameed@bowls.com', 'hameed');
-        await page.waitForURL('**/lakeview-bowls**')
+        await page.waitForURL('/lakeview-bowls')
         await use(page);
     },
     bookingsPage: async ({ loggedInPage }, use) => {
@@ -28,3 +28,5 @@ export const test = base.extend<Fixtures>({
         await use(homePage);
     }
 });
+
+export { expect } from '@playwright/test';

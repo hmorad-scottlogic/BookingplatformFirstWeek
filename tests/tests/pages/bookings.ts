@@ -12,7 +12,7 @@ export class BookingsPage {
   }
 
   async goto() {
-    await this.page.goto('http://localhost:3000/dashboard/bookings');
+    await this.page.goto('/dashboard/bookings');
   }
 
   async bookARink() {
