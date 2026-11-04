@@ -10,6 +10,8 @@ export class HomePage {
   readonly passwordInput: Locator;
   readonly signInBtn: Locator;
   readonly signOutBtn: Locator;
+  readonly homeTitleTxt: Locator;
+  readonly homeTitleSignedInTxt: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -21,6 +23,8 @@ export class HomePage {
     this.passwordInput = page.getByRole('textbox', { name: 'Password' });
     this.signInBtn = page.getByRole('button', { name: 'Sign In' });
     this.signOutBtn = page.getByRole('button', { name: 'Sign Out' });
+    this.homeTitleTxt = page.getByText('Club Management Platform');
+    this.homeTitleSignedInTxt = page.getByRole('heading', { name: 'Lakeview Bowls Club' });
   }
 
   async goto() {
@@ -51,7 +55,9 @@ export class HomePage {
   }
 
   async signOut() {
+    if (!(await this.signOutBtn.isVisible())) {
     await this.signIn("hameed@bowls.com", "hameed");
+    }
     await this.signOutBtn.click();
   }
 
