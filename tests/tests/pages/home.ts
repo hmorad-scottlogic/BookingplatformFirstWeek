@@ -13,6 +13,8 @@ export class HomePage {
   readonly signOutBtn: Locator;
   readonly homeTitleTxt: Locator;
   readonly homeTitleSignedInTxt: Locator;
+  readonly availabilityBtn: Locator;
+  readonly gotoBookingsBtn: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -26,6 +28,8 @@ export class HomePage {
     this.signOutBtn = page.getByRole('button', { name: 'Sign Out' });
     this.homeTitleTxt = page.getByText('Club Management Platform');
     this.homeTitleSignedInTxt = page.getByRole('heading', { name: 'Lakeview Bowls Club' });
+    this.availabilityBtn = page.getByRole('link', { name: 'Check Availability' });
+    this.gotoBookingsBtn = page.getByRole('link', { name: 'Register to Book' });
   }
 
   async goto() {
@@ -64,6 +68,12 @@ export class HomePage {
 
   async signOut() {
     await this.signOutBtn.click();
+  }
+
+  async gotoBookingsFromAvailability() {
+    await this.availabilityBtn.click();
+    await this.gotoBookingsBtn.click();
+    await this.page.waitForLoadState('networkidle');
   }
 
 }

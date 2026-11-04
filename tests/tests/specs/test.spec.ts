@@ -2,6 +2,7 @@ import { test, expect } from '../fixtures/fixture';
 import { RegisterPage } from '../pages/register';
 import { HomePage } from '../pages/home';
 import { users } from '../test-data/test-data';
+import { BookingsPage } from '../pages/bookings';
 
 test.afterEach(async ({  }, testInfo) => {
   if (testInfo.status !== testInfo.expectedStatus) {
@@ -57,9 +58,19 @@ for (const { case: name, email, password, club } of invalidLogins) {
 
 // All booking feature tests
 test.describe('Booking features @smoke', () => {
+  
 test('Check booking', async ({ bookingsPage }) => {
   await bookingsPage.bookARink();
   await expect(bookingsPage.bookingConfirmTxt).toBeVisible();
+})
+
+test.fail('Book through check availability page',  {
+  tag: '@defect',
+  annotation: { type: 'defect', description: 'Availability page does not take to bookings' }
+}, async ({ loggedInPage, page }) => {
+  const homePage = new HomePage(loggedInPage);
+  await homePage.gotoBookingsFromAvailability();
+  await expect(page).toHaveURL('/dashboard/bookings');
 })
 
 })

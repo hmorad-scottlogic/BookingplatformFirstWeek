@@ -20,6 +20,7 @@ export class BookingsPage {
   async bookARink() {
     await this.rink1Btn.click();
     await this.requestBookingBtn.click();
+    await this.page.waitForLoadState('networkidle');
   }
 
 }
