@@ -10,7 +10,7 @@ test.afterEach(async ({  }, testInfo) => {
   }
 });
 
-test('Check title', async ({ homePage }) => {
+test('Check title @smoke', async ({ homePage }) => {
   await expect(homePage.homeTitleTxt).toBeVisible();
 })
 
@@ -58,7 +58,7 @@ for (const { case: name, email, password, club } of invalidLogins) {
 
 // All booking feature tests
 test.describe('Booking features @smoke', () => {
-  
+
 test('Check booking', async ({ bookingsPage }) => {
   await bookingsPage.bookARink();
   await expect(bookingsPage.bookingConfirmTxt).toBeVisible();
