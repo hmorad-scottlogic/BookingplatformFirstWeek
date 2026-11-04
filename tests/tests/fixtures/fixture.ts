@@ -1,8 +1,9 @@
 import { test as base, Page } from '@playwright/test';
-import { LoginPage } from '../pages/sign-in';
+import { LoginPage } from '../pages/login';
 import { BookingsPage } from '../pages/bookings';
 import { HomePage } from '../pages/home';
 import { RegisterPage } from '../pages/register';
+import { users } from '../test-data/test-data';
 
 type Fixtures = {
     loggedInPage: Page;
@@ -15,7 +16,7 @@ export const test = base.extend<Fixtures>({
     loggedInPage: async ({ page }, use) => {
         const loginPage = new LoginPage(page);
         await loginPage.goto();
-        await loginPage.signIn('hameed@bowls.com', 'hameed');
+        await loginPage.standardSignIn();
         await page.waitForURL('/lakeview-bowls')
         await use(page);
     },

@@ -1,4 +1,5 @@
 import { type Locator, type Page } from '@playwright/test';
+import { users } from '../test-data/test-data';
 
 export class HomePage {
   readonly page: Page;
@@ -47,17 +48,21 @@ export class HomePage {
     await this.browseClubsLnk.click();
   }
 
-  async signIn(email: string, password: string) {
+  async standardSignIn() {
     await this.clickSignIn();
-    await this.emailInput.fill(email);
-    await this.passwordInput.fill(password);
+    await this.emailInput.fill(users.standard.email);
+    await this.passwordInput.fill(users.standard.password);
+    await this.signInBtn.click();
+  }
+
+  async adminSignIn() {
+    await this.clickSignIn();
+    await this.emailInput.fill(users.admin.email);
+    await this.passwordInput.fill(users.standard.password);
     await this.signInBtn.click();
   }
 
   async signOut() {
-    if (!(await this.signOutBtn.isVisible())) {
-    await this.signIn("hameed@bowls.com", "hameed");
-    }
     await this.signOutBtn.click();
   }
 

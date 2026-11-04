@@ -1,4 +1,5 @@
 import { type Locator, type Page } from '@playwright/test';
+import { users } from '../test-data/test-data';
 
 export class LoginPage {
   readonly page: Page;
@@ -22,9 +23,15 @@ export class LoginPage {
     await this.page.waitForLoadState('networkidle');
   }
 
-  async signIn(email: string, password: string) {
-    await this.emailInput.fill(email);
-    await this.passwordInput.fill(password);
+  async standardSignIn() {
+    await this.emailInput.fill(users.standard.email);
+    await this.passwordInput.fill(users.standard.password);
+    await this.signInBtn.click();
+  }
+
+  async adminSignIn() {
+    await this.emailInput.fill(users.admin.email);
+    await this.passwordInput.fill(users.admin.password);
     await this.signInBtn.click();
   }
 
