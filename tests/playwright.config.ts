@@ -10,7 +10,7 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
  */
 export default defineConfig({
 
-  testDir: './tests',
+  testDir: './testing',
   /* Run tests in files in parallel */
   fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -44,8 +44,8 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    { name: 'setup', testMatch: /global-setup\.ts/, teardown: 'teardown' },
-    { name: 'teardown', testMatch: /global-teardown\.ts/ },
+    { name: 'setup', testDir: './setup',testMatch: /global-setup\.ts/, teardown: 'teardown' },
+    { name: 'teardown', testDir: './setup', testMatch: /global-teardown\.ts/ },
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'], 

@@ -1,8 +1,8 @@
 import { test as base, Page } from '@playwright/test';
-import { LoginPage } from '../pages/login';
-import { BookingsPage } from '../pages/bookings';
-import { HomePage } from '../pages/home';
-import { RegisterPage } from '../pages/register';
+import { LoginPage } from '../helpers/login';
+import { BookingsPage } from '../helpers/bookings';
+import { HomePage } from '../helpers/home';
+import { RegisterPage } from '../helpers/register';
 
 type Fixtures = {
     loggedInPage: Page;

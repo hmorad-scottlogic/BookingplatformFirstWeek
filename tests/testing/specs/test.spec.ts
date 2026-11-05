@@ -1,6 +1,6 @@
 import { test, expect } from '../fixtures/fixture';
-import { RegisterPage } from '../pages/register';
-import { HomePage } from '../pages/home';
+import { RegisterPage } from '../helpers/register';
+import { HomePage } from '../helpers/home';
 import { users } from '../test-data/test-data';
 
 test.afterEach(async ({  }, testInfo) => {
@@ -28,12 +28,6 @@ test('Check sign in', async ({ homePage, page }) => {
   await expect(homePage.homeTitleSignedInTxt).toBeVisible();
 })
 
-test('Check sign up', async ({ registerPage, page }) => {
-  await registerPage.standardSignUp();
-  await expect(page).toHaveURL('/lakeview-bowls');
-  await expect(registerPage.lakeviewTxt).toBeVisible();
-})
-
 const invalidSignups = [
   { case: 'empty email', email: '', password: users.randomStandard.password, club: ''},
   { case: 'empty password', email: users.randomStandard.email, password: '', club: ''},
@@ -46,7 +40,6 @@ for (const { case: name, email, password, club } of invalidSignups) {
     await expect(page).toHaveURL('/auth/register');
   });
 }
-
 })
 
 // All user account handling tests
@@ -56,6 +49,13 @@ test('Check sign out', async ({ page }) => {
   const homePage = new HomePage(page);
   await homePage.signOut();
   await expect(homePage.homeTitleTxt).toBeVisible();
+})
+
+
+test('Check sign up', async ({ registerPage, page }) => {
+  await registerPage.standardSignUp();
+  await expect(page).toHaveURL('/lakeview-bowls');
+  await expect(registerPage.lakeviewTxt).toBeVisible();
 })
 
 })
