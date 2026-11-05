@@ -67,10 +67,12 @@ export class HomePage {
   }
 
   async signOut() {
+    await this.page.goto('/lakeview-bowls');
     await this.signOutBtn.click();
   }
 
   async gotoBookingsFromAvailability() {
+    await this.page.goto('/lakeview-bowls');
     await this.availabilityBtn.click();
     await this.gotoBookingsBtn.click();
     await this.page.waitForLoadState('networkidle');

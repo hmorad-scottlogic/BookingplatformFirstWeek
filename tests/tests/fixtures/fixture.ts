@@ -3,7 +3,6 @@ import { LoginPage } from '../pages/login';
 import { BookingsPage } from '../pages/bookings';
 import { HomePage } from '../pages/home';
 import { RegisterPage } from '../pages/register';
-import { users } from '../test-data/test-data';
 
 type Fixtures = {
     loggedInPage: Page;
@@ -20,8 +19,8 @@ export const test = base.extend<Fixtures>({
         await page.waitForURL('/lakeview-bowls')
         await use(page);
     },
-    bookingsPage: async ({ loggedInPage }, use) => {
-        const bookingsPage = new BookingsPage(loggedInPage);
+    bookingsPage: async ({ page }, use) => {
+        const bookingsPage = new BookingsPage(page);
         await bookingsPage.goto();
         await use(bookingsPage);
     },
