@@ -88,3 +88,12 @@ test.fail('Book through check availability page',  {
 })
 
 })
+
+test.describe('Admin features @admin', () => {
+  test.use({ storageState: 'playwright/.auth/admin.json' });
+
+  test('Check API injection creating green', async ({ adminGreensPage, createGreens }) => {
+    await expect(adminGreensPage.locatorForGreenName(createGreens.name)).toBeVisible(); 
+  });
+
+});

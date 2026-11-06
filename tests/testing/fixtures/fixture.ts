@@ -20,7 +20,6 @@ export const test = base.extend<Fixtures>({
         const loginPage = new LoginPage(page);
         await loginPage.goto();
         await loginPage.standardSignIn();
-        await page.waitForURL('/lakeview-bowls')
         await use(page);
     },
     bookingsPage: async ({ page }, use) => {
@@ -38,7 +37,7 @@ export const test = base.extend<Fixtures>({
         await registerPage.goto();
         await use(registerPage);
     },
-    adminGreensPage: async ({ page }, use) => {
+    adminGreensPage: async ({ page, createGreens }, use) => {
         const adminGreensPage = new AdminGreensPage(page);
         await adminGreensPage.goto();
         await use (adminGreensPage);

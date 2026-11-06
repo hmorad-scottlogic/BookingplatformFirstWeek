@@ -27,12 +27,14 @@ export class LoginPage {
     await this.emailInput.fill(users.standard.email);
     await this.passwordInput.fill(users.standard.password);
     await this.signInBtn.click();
+    await this.page.waitForURL('/lakeview-bowls')
   }
 
   async adminSignIn() {
     await this.emailInput.fill(users.admin.email);
     await this.passwordInput.fill(users.admin.password);
     await this.signInBtn.click();
+    await this.page.waitForURL('/lakeview-bowls')
   }
 
   async signOut() {
