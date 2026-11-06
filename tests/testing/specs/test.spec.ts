@@ -8,6 +8,7 @@ test.afterEach(async ({  }, testInfo) => {
       console.log(`Test ${testInfo.title} finished with status: ${testInfo.status}`);
   }
 });
+
 test.describe('signed out tests', () => {
   test.use({ storageState: { cookies: [], origins: [] } });
 
@@ -57,6 +58,15 @@ test('Check sign up', async ({ registerPage, page }) => {
   await expect(page).toHaveURL('/lakeview-bowls');
   await expect(registerPage.lakeviewTxt).toBeVisible();
 })
+
+test('GET /api/bookings gets all bookings for a standard user', { tag: '@api' }, async ({ request }) => {
+  const response = await request.get('/api/bookings');
+  expect(response.status()).toBe(200);
+  const body = await response.json();
+  expect(body.length).toBeGreaterThan(0);
+  expect(body[0]).toHaveProperty('user');
+});
+
 
 })
 

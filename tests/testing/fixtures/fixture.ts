@@ -3,12 +3,16 @@ import { LoginPage } from '../helpers/login';
 import { BookingsPage } from '../helpers/bookings';
 import { HomePage } from '../helpers/home';
 import { RegisterPage } from '../helpers/register';
+import { Green, createGreen, deleteGreen } from '../helpers/createGreens';
+import { AdminGreensPage } from '../helpers/adminGreens';
 
 type Fixtures = {
     loggedInPage: Page;
     bookingsPage: BookingsPage;
     homePage: HomePage;
     registerPage: RegisterPage;
+    adminGreensPage: AdminGreensPage;
+    createGreens: Green;
 };
 
 export const test = base.extend<Fixtures>({
@@ -33,6 +37,17 @@ export const test = base.extend<Fixtures>({
         const registerPage = new RegisterPage(page);
         await registerPage.goto();
         await use(registerPage);
+    },
+    adminGreensPage: async ({ page }, use) => {
+        const adminGreensPage = new AdminGreensPage(page);
+        await adminGreensPage.goto();
+        await use (adminGreensPage);
+    },
+    createGreens: async ({ request }, use) => {
+        const randomGreenName = crypto.randomUUID();
+        const greenJSON = await createGreen(request, randomGreenName);
+        await use (greenJSON);
+        await deleteGreen(request, greenJSON.id);
     }
     
 });
