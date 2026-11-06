@@ -2,6 +2,7 @@ import { test, expect } from '../fixtures/fixture';
 import { RegisterPage } from '../helpers/register';
 import { HomePage } from '../helpers/home';
 import { users } from '../test-data/test-data';
+import { createGreenReturnsRawResponse } from '../helpers/createGreens';
 
 test.afterEach(async ({  }, testInfo) => {
   if (testInfo.status !== testInfo.expectedStatus) {
@@ -41,7 +42,15 @@ for (const { case: name, email, password, club } of invalidSignups) {
     await expect(page).toHaveURL('/auth/register');
   });
 }
+
 })
+
+test('Create green signed out should give 403 ERROR @api', async ({ request }) => {
+  const response = await createGreenReturnsRawResponse(request, crypto.randomUUID());
+  console.log(response.status(), await response.text());
+  expect(response.status()).toBe(403);
+})
+
 
 // All user account handling tests
 test.describe('User sign-in/out features @smoke', () => {
@@ -66,8 +75,6 @@ test('GET /api/bookings gets all bookings for a standard user', { tag: '@api' },
   expect(body.length).toBeGreaterThan(0);
   expect(body[0]).toHaveProperty('user');
 });
-
-
 })
 
 // All booking feature tests
@@ -89,7 +96,7 @@ test.fail('Book through check availability page',  {
 
 })
 
-test.describe('Admin features @admin', () => {
+test.describe('Admin features @api', () => {
   test.use({ storageState: 'playwright/.auth/admin.json' });
 
   test('Check API injection creating green', async ({ adminGreensPage, createGreens }) => {

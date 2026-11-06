@@ -19,7 +19,7 @@ export class LoginPage {
   }
 
   async goto() {
-    await this.page.goto('/auth/login');
+    await this.page.goto('http://localhost:3000//auth/login');
     await this.page.waitForLoadState('networkidle');
   }
 
