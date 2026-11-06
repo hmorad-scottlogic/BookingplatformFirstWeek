@@ -9,6 +9,7 @@ test = run all tests
 test:headed = run tests as headed
 test:smoke = run all smoke tests
 test:defect = run all defect tests
+test:admin = run all admin tests
 test:ui = run tests in UI mode
 test:debug = run tests in debug mode
 codegen = run codegen
@@ -20,3 +21,15 @@ We have chosen these tests to pass currently and will have a description that de
 
 These tests are to have their 'defect' tag removed as well as their .fail in their test after the feature has been fixed.
 
+## Test data
+test data such as emails, password etc. have been stored within the test-data.ts file. 
+Sensitive data is taken from the .env file for security reasons.
+
+## Global setup
+The environment has been globally setup in a signed-in state for a standard user.
+The option to set up via an admin sign-in is available under the directory of 'playwright/auth/admin.json'
+
+## Global teardown
+The environment will automatically clear the global state by deleting the ./auth folder as a whole.
+
+## 
