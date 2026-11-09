@@ -73,9 +73,10 @@ export class HomePage {
 
   async gotoBookingsFromAvailability() {
     await this.page.goto('/lakeview-bowls');
-    await this.availabilityBtn.click();
-    await this.gotoBookingsBtn.click();
     await this.page.waitForLoadState('networkidle');
+    await this.availabilityBtn.click();
+    await this.page.waitForLoadState('networkidle');
+    await this.gotoBookingsBtn.click();
   }
 
 }

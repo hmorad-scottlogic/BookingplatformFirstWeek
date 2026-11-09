@@ -17,11 +17,17 @@ test.describe('signed out tests', () => {
   await expect(homePage.homeTitleTxt).toBeVisible();
 })
 
-test('Check register page', async ({ homePage, page }) => {
-  await homePage.clickRegister();
+test('Check register page exists', async ({ homePage, page }) => {
+  await test.step('Navigates to register page', async () => {
+    await homePage.clickRegister();
+  })
   const registerPage = new RegisterPage(page);
-  await expect(page).toHaveURL('/auth/register');
-  await expect(registerPage.registerTxt).toBeVisible();
+  await test.step('Check page URL matches register screen', async () => {
+    await expect(page).toHaveURL('/auth/register');
+  })
+  await test.step('Checks that the register page has the correct text', async () => {
+    await expect(registerPage.registerTxt).toBeVisible();
+  })
 })
 
 test('Check sign in', async ({ homePage, page }) => {
@@ -47,7 +53,6 @@ for (const { case: name, email, password, club } of invalidSignups) {
 
 test('Create green signed out should give 403 ERROR @api', async ({ request }) => {
   const response = await createGreenReturnsRawResponse(request, crypto.randomUUID());
-  console.log(response.status(), await response.text());
   expect(response.status()).toBe(403);
 })
 
@@ -68,14 +73,28 @@ test('Check sign up', async ({ registerPage, page }) => {
   await expect(registerPage.lakeviewTxt).toBeVisible();
 })
 
-test('GET /api/bookings gets all bookings for a standard user', { tag: '@api' }, async ({ request }) => {
-  const response = await request.get('/api/bookings');
-  expect(response.status()).toBe(200);
+// Gives an example of using test.step and generates the API response as JSON and formatted to be readable 
+test('GET /api/bookings gets all bookings for a standard user', { tag: '@api' }, async ({ request }, testInfo) => {
+  const response = await test.step('Request all bookings', async () => {
+    return await request.get('/api/bookings');
+  });
+
   const body = await response.json();
-  expect(body.length).toBeGreaterThan(0);
-  expect(body[0]).toHaveProperty('user');
+  await testInfo.attach('bookings response', {
+    body: JSON.stringify(body, null, 2),
+    contentType: 'application/json',
+  });
+
+  await test.step('Check status is 200', async () => {
+    expect(response.status()).toBe(200);
+  });
+
+  await test.step('Check body shape', async () => {
+    expect(body.length).toBeGreaterThan(0);
+    expect(body[0]).toHaveProperty('user');
+  });
 });
-})
+});
 
 // All booking feature tests
 test.describe('Booking features @smoke', () => {
@@ -91,7 +110,7 @@ test.fail('Book through check availability page',  {
 }, async ({ page }) => {
   const homePage = new HomePage(page);
   await homePage.gotoBookingsFromAvailability();
-  await expect(page).toHaveURL('/dashboard/bookings');
+  await expect(page).toHaveURL('/dashboard/bookings', { timeout: 3000 });
 })
 
 })
@@ -104,3 +123,7 @@ test.describe('Admin features @api', () => {
   });
 
 });
+
+test('example of a testInfo.fixme @fixMe', async ({ page }, testInfo) => {
+  testInfo.fixme();
+})

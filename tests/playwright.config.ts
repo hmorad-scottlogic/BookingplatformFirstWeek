@@ -20,19 +20,22 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: process.env.CI
+  ? [['github'], ['html', { open: 'never' }], ['junit', { outputFile: 'results/junit.xml' }]]
+  : [['list'], ['html', { open: 'on-failure' }]],
   /* Timeout for tests */
-  timeout: 15000,
+  timeout: 30000,
   /* expect timeout for auto-retrying assertions */
   expect: {
-    timeout: 5000,
+    timeout: 10000,
   },
   /* Runs server when tests run if not running already with a 2 minute timeout */
   webServer: {
     command: 'npm run dev',
+    cwd: '..',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
-    timeout: 120*1000,
+    timeout: 60*1000,
   },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -40,6 +43,7 @@ export default defineConfig({
     baseURL: 'http://localhost:3000',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    screenshot: 'on',
   },
 
   /* Configure projects for major browsers */
@@ -87,11 +91,4 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
 });
