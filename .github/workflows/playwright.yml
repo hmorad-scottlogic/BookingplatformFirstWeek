@@ -8,21 +8,30 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./tests
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
           cache: npm
+          cache-dependency-path: |
+            tests/package-lock.json
+            package-lock.json
+      - run: npm ci
+        working-directory: .
       - run: npm ci
       - run: npx playwright install --with-deps
       - run: npx playwright test
         env:
-          TEST_ADMIN_PASSWORD: ${{ secrets.ADMIN_USER_PASSWORD }}
-          TEST_USER_PASSWORD: ${{ secrets.STANDARD_USER_PASSWORD }}
+          STANDARD_USER_PASSWORD: ${{ secrets.STANDARD_USER_PASSWORD }}
+          ADMIN_USER_PASSWORD: ${{ secrets.ADMIN_USER_PASSWORD }}
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
-          path: playwright-report/
+          path: tests/playwright-report/
           retention-days: 14
